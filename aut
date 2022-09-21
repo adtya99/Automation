@@ -1,0 +1,98 @@
+//S corresponds to sensors. M corresponds to Motor
+//Start conveyor 1
+IF S1=TRUE AND B1=TRUE AND Step=1 THEN (B1 = Button 1)
+M1V:=TRUE; (M1V = Conveyor 1 forward motor)
+LAMPE1:=TRUE;
+END_IF
+IF S2=TRUE AND Step=1 THEN
+M1V:=FALSE;
+Step:=2;
+END_IF
+//Start conveyor 2
+IF S2=TRUE AND Step=2 THEN
+M1V:=TRUE;
+M3V:=TRUE; (M3V = Conveyor 2 forward motor)
+Step:=3;
+ENd_IF
+//Start conveyor 3
+IF S3=TRUE AND Step=3 THEN
+M1V:=FALSE;
+M3V:=TRUE;
+M4V:=TRUE; (M4V = Conveyor 3 forward motor)
+LAMPE1:=FALSE;
+Step:=4;
+ENd_IF
+//Stop conveyors 2 and 3
+IF S4=TRUE AND Step=4 THEN
+M3V:=FALSE;
+M4V:=FALSE;
+Step:=5;
+ENd_IF
+//Move machine head forward
+IF S4=TRUE AND S8A=FALSE AND Step=5 THEN
+M6V:=TRUE;
+LAMPE2:=TRUE;
+Step:=6;
+END_IF
+//Stop motor M6 and Start Motor M8
+IF S8B=FALSE AND Step=6 THEN
+M6V:=FALSE; (M6V = Machine forward motor)
+M8:=TRUE; (M8 = Machine rotary motor)
+Step:=7;
+END_IF
+//Start motor M7
+IF S8B=FALSE AND S9A=FALSE AND Step=7 THEN
+M7V:=TRUE; (M7V = machine head down motor)
+Step:=8;
+END_IF
+//Stop motor M7
+IF S8B=FALSE AND S9B=FALSE AND Step=8 THEN
+M7V:=FALSE; (M7V = machine head down motor)
+Step:=9;
+END_IF
+//Start up movement of work machine
+IF B2=TRUE AND S8B=FALSE AND Step=9 THEN (B2 = Switch)
+M7H:=TRUE;
+Step:=10;
+END_IF
+//Stop up movement of work machine
+IF S9A=FALSE AND Step=10 THEN
+M7H:=FALSE;
+M8:=FALSE; (M7H = Machine head up motor)
+Step:=11;
+END_IF
+//Start backward movement of work machine
+IF S8B=FALSE AND Step=11 THEN
+M6R:=TRUE; (M6R = Machine backward motor)
+Step:=12;
+END_IF
+//Stop backward movement of work machine
+IF S8A=FALSE AND Step=12 THEN
+M6R:=FALSE;
+Lampe2:=FALSE;
+Step:=13;
+END_IF
+//Start Conveyor 3 and conveyor 2 backward
+IF S8A=FALSE AND S4=TRUE AND Step=13 THEN
+M4R:=TRUE; (M4R = Conveyor 3 reverse motor)
+M2R:=TRUE; (M2R = Conveyor 2 reverse motor)
+Step:=14;
+END_IF
+//Stop conveyor 3 and Start conveyor 1
+IF S3=TRUE AND Step=14 THEN
+M4R:=FALSE;
+M2R:=TRUE;
+M1R:=TRUE; (M1R = Conveyor 1 reverse motor)
+Step:=15;
+END_IF
+//Stop conveyor 2
+IF S2=TRUE AND Step=15 THEN
+M2R:=FALSE;
+M1R:=TRUE;
+Step:=16;
+END_IF
+//Stop conveyor 1
+IF S1=TRUE AND Step=16 THEN
+M1R:=FALSE;
+Step:=17;
+END_IF
